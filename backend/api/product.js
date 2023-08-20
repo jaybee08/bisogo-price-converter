@@ -18,6 +18,8 @@ const fetchProductsFromShopify = async () => {
               variants(first: 1) {
                 edges {
                   node {
+                    id
+                    title
                     price
                   }
                 }

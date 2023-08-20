@@ -34,7 +34,7 @@ const PodProducts = () => {
             {product.imageSrc && <img src={product.imageSrc} alt={product.title} style={{ width: '120px', height: '120px' }} />}
             <p>Title: {product.title}</p>
             <p>Product ID: {product.id}</p>
-            <p>Price: ${product.price}</p>
+            <p>Price: PHP{product.price}</p>
           </li>
         ))}
       </ul>
