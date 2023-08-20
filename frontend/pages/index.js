@@ -1,18 +1,15 @@
 import React from 'react'
 import Head from 'next/head'
 import styled from 'styled-components';
-
-const Title = styled.h1`
-  font-size: 3rem;
-  color: ${props => props.theme.primary};
-`;
+import PodProducts from '../components/PodProducts';
 
 const Index = () => (
   <>
     <Head>
-      <title>Hello World</title>
+      <title>Test web app | POD products</title>
     </Head>
-    <Title>Hello World</Title>
+    <p>This is a test webapp</p>
+    <PodProducts />
   </>
 );
 
