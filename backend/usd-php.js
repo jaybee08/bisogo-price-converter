@@ -5,8 +5,8 @@ const fetchUSDtoPHPExchangeRate = async () => {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     
-    await page.goto('https://www.currency.me.uk/convert/usd/php');
-    
+    await page.goto(process.env.EXCHANGE_RATE_URL);
+
     const exchangeRateText = await page.$eval('#answer', element => element.value);
     const exchangeRate = parseFloat(exchangeRateText);
     

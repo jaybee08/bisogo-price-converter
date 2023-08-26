@@ -10,7 +10,8 @@ const PodProducts = () => {
 
   async function fetchProductInfo() {
     try {
-      const response = await fetch('http://localhost:3000/api/product'); // Update the URL
+      // console.log(process.env.REACT_APP_API_URL);
+      const response = await fetch('http://localhost:3000/api/product'); // use .env here when deployed
       const responseData = await response.json();
       console.log('Response Data:', responseData);
       const extractedInfo = responseData.map(product => ({

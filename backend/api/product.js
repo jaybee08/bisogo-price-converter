@@ -34,11 +34,11 @@ const fetchProductsFromShopify = async () => {
     try {
       const { default: fetch } = await import('node-fetch');
   
-      const response = await fetch('https://sarrahmay-store.myshopify.com/admin/api/2023-07/graphql.json', {
+      const response = await fetch(process.env.SHOPIFY_GRAPHQL_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-Shopify-Access-Token': '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',
+          'X-Shopify-Access-Token': process.env.SHOPIFY_API_TOKEN,
         },
         body: JSON.stringify({ query }),
       });

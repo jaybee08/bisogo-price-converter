@@ -1,9 +1,11 @@
+require('dotenv').config(); // Load environment variables from .env file
+const Shopify = require('shopify-api-node');
 const express = require('express');
 const cors = require('cors');
 const fetchProductsFromShopify = require('./api/product');
 const axios = require('axios'); 
 const fetchUSDtoPHPExchangeRate = require('./usd-php');
-const Shopify = require('shopify-api-node');
+
 
 const app = express();
 
@@ -12,10 +14,11 @@ app.use(cors());
 app.use(express.json()); // Parse JSON request bodies
 
 const shopify = new Shopify({
-shopName: 'sarrahmay-store.myshopify.com',
-apiKey: '6d467337db26318412972b5dddf3a58f',
-password: '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',
+  shopName: process.env.SHOPIFY_SHOP_NAME,
+  apiKey: process.env.SHOPIFY_API_KEY,
+  password: process.env.SHOPIFY_PASSWORD,
 });
+
 
 
 // fetch shopify product
@@ -54,11 +57,11 @@ app.get('/api/product', async (req, res) => {
           }
         `;
 
-        const response = await fetch('https://sarrahmay-store.myshopify.com/admin/api/2023-07/graphql.json', {
+        const response = await fetch(process.env.SHOPIFY_GRAPHQL_URL, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'X-Shopify-Access-Token': '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',
+            'X-Shopify-Access-Token': process.env.SHOPIFY_API_TOKEN,
           },
           body: JSON.stringify({ query: mutation }),
         });
