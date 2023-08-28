@@ -5,7 +5,7 @@ const fetchUSDtoPHPExchangeRate = async () => {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     
-    await page.goto(process.env.EXCHANGE_RATE_URL);
+    await page.goto(process.env.EXCHANGE_RATE_URL, { timeout: 60000 });
 
     const exchangeRateText = await page.$eval('#answer', element => element.value);
     const exchangeRate = parseFloat(exchangeRateText);
