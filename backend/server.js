@@ -3,6 +3,7 @@ const Shopify = require('shopify-api-node');
 const express = require('express');
 const cors = require('cors');
 const fetchPodProductsFromShopify = require('./api/pod-products');
+const fetchProductsFromShopify = require('./api/shopify-products');
 const axios = require('axios');
 const fetchUSDtoPHPExchangeRate = require('./usd-php'); 
 
@@ -20,9 +21,21 @@ const shopify = new Shopify({
 });
 
 // Fetch shopify product information
-app.get('/api/product', async (req, res) => {
+app.get('/api/pod-products', async (req, res) => {
   try {
     const products = await fetchPodProductsFromShopify();
+    // Send the fetched product information to the frontend
+    res.json(products);
+  } catch (error) {
+    console.error('Error fetching products:', error);
+    res.status(500).json({ error: 'An error occurred while fetching products' });
+  }
+});
+
+// Fetch shopify product information
+app.get('/api/shopify-products', async (req, res) => {
+  try {
+    const products = await fetchProductsFromShopify();
     // Send the fetched product information to the frontend
     res.json(products);
   } catch (error) {
