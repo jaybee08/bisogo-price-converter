@@ -2,7 +2,7 @@ require('dotenv').config();
 const Shopify = require('shopify-api-node');
 const express = require('express');
 const cors = require('cors');
-const fetchProductsFromShopify = require('./api/product');
+const fetchPodProductsFromShopify = require('./api/pod-products');
 const axios = require('axios');
 const fetchUSDtoPHPExchangeRate = require('./usd-php'); 
 
@@ -22,7 +22,7 @@ const shopify = new Shopify({
 // Fetch shopify product information
 app.get('/api/product', async (req, res) => {
   try {
-    const products = await fetchProductsFromShopify();
+    const products = await fetchPodProductsFromShopify();
     // Send the fetched product information to the frontend
     res.json(products);
   } catch (error) {

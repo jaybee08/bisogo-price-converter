@@ -1,4 +1,4 @@
-const fetchProductsFromShopify = async () => {
+const fetchPodProductsFromShopify = async () => {
     const query = `
     {
         products(first: 10, sortKey: ID, query: "tag:pod") {
@@ -50,5 +50,5 @@ const fetchProductsFromShopify = async () => {
     }
   };
   
-  module.exports = fetchProductsFromShopify;
+  module.exports = fetchPodProductsFromShopify;
   
