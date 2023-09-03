@@ -1,7 +1,7 @@
 // frontend/components/PodProduct.js
 import React, { useEffect, useState } from 'react';
 
-const ShopifyProducts = () => {
+const ShopifyPodProducts = () => {
   const [productInfo, setProductInfo] = useState([]);
 
   useEffect(() => {
@@ -11,7 +11,7 @@ const ShopifyProducts = () => {
   async function fetchProductInfo() {
     try {
       // console.log(process.env.REACT_APP_API_URL);
-      const response = await fetch('http://localhost:3000/api/shopify-products'); // use .env here when deployed
+      const response = await fetch('http://localhost:3000/api/pod-products'); // use .env here when deployed
       const responseData = await response.json();
       console.log('Response Data:', responseData);
       const extractedInfo = responseData.map(product => ({
@@ -29,11 +29,11 @@ const ShopifyProducts = () => {
   
   return (
     <div>
-      <h2>All Shopify Product Information</h2>
+      <h2>POD Product Information</h2>
       <ul>
         {productInfo.map(product => (
           <li key={product.id}>
-            {product.imageSrc && <img src={product.imageSrc} alt={product.title} style={{ width: '120px', height: '120px' }} />}
+            {product.imageSrc && <img src={product.imageSrc} alt={product.title} style={{ width: '450px', height: '450px' }} />}
             <p>Title: {product.title}</p>
             <p>Product ID: {product.id}</p>
             <p>Product Description: {product.description}</p>
@@ -45,7 +45,7 @@ const ShopifyProducts = () => {
   );
 };
 
-export default ShopifyProducts;
+export default ShopifyPodProducts;
 
 
 
