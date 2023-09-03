@@ -5,14 +5,8 @@ const cors = require('cors');
 const fetchPodProductsFromShopify = require('./api/pod-products');
 const fetchProductsFromShopify = require('./api/shopify-products');
 const axios = require('axios');
-const fetchUSDtoPHPExchangeRate = require('./usd-php'); 
-
-
+const fetchUSDtoPHPExchangeRate = require('./usd-php');
 const app = express();
-
-// Set up CORS headers to allow requests from your frontend
-app.use(cors());
-app.use(express.json()); // Parse JSON request bodies
 
 const shopify = new Shopify({
   shopName: process.env.SHOPIFY_SHOP_NAME,
@@ -20,19 +14,66 @@ const shopify = new Shopify({
   password: process.env.SHOPIFY_PASSWORD,
 });
 
-// Fetch shopify product information
-app.get('/api/pod-products', async (req, res) => {
-  try {
-    const products = await fetchPodProductsFromShopify();
-    // Send the fetched product information to the frontend
-    res.json(products);
-  } catch (error) {
-    console.error('Error fetching products:', error);
-    res.status(500).json({ error: 'An error occurred while fetching products' });
-  }
-});
 
-// Fetch shopify product information
+// Set up CORS headers to allow requests from your frontend
+app.use(cors());
+app.use(express.json()); // Parse JSON request bodies
+
+
+// // Fetch shopify product information
+// app.get('/api/shopify-products', async (req, res) => {
+//   try {
+//     // Fetch products from Shopify
+//     const products = await fetchProductsFromShopify();
+
+//     // Generate product descriptions using ChatGPT
+//     const updatedProducts = await Promise.all(products.map(async (product) => {
+//       // Create a prompt for ChatGPT based on the product title
+//       const prompt = `Generate a product description for: "${product.title}"`;
+
+//       // Make a request to ChatGPT API to generate description
+//       const apiKey = process.env.OPENAI_API_KEY;
+//       const chatGptEndpoint = 'https://api.openai.com/v1/engines/davinci/completions';
+
+//       try {
+//         const response = await axios.post(chatGptEndpoint, {
+//           prompt,
+//           max_tokens: 50, // Adjust as needed
+//         }, {
+//           headers: {
+//             'Authorization': `Bearer ${apiKey}`,
+//             'Content-Type': 'application/json',
+//           },
+//         });
+
+//         // Add the generated description to the product
+//         product.description = response.data.choices[0].text;
+
+//         // Update the product description in Shopify
+//         const updatedProduct = await shopify.product.update(product.id, {
+//           body_html: product.description,
+//         });
+
+//         // Add the "ai-description" tag to the product
+//         await shopify.product.addTags(updatedProduct.id, 'ai-description');
+
+//         return product;
+//       } catch (error) {
+//         console.error('Error generating or updating description:', error);
+//         return product; // Return the product without a description on error
+//       }
+//     }));
+
+//     // Send the updated product information to the frontend
+//     res.json(updatedProducts);
+//   } catch (error) {
+//     console.error('Error fetching products:', error);
+//     res.status(500).json({ error: 'An error occurred while fetching products' });
+//   }
+// });
+
+
+// Fetch shopify POD product information
 app.get('/api/shopify-products', async (req, res) => {
   try {
     const products = await fetchProductsFromShopify();
@@ -44,6 +85,20 @@ app.get('/api/shopify-products', async (req, res) => {
   }
 });
 
+// Fetch shopify POD product information
+app.get('/api/pod-products', async (req, res) => {
+  try {
+    const products = await fetchPodProductsFromShopify();
+    // Send the fetched product information to the frontend
+    res.json(products);
+  } catch (error) {
+    console.error('Error fetching products:', error);
+    res.status(500).json({ error: 'An error occurred while fetching products' });
+  }
+});
+
+
+// Product update/creation shopify webhook
 const WEBHOOK_PROCESS_INTERVAL = 120 * 1000; // 120 seconds
 let lastPriceUpdateTimestamp = null;
 
