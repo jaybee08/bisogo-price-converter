@@ -1,5 +1,6 @@
 // frontend/components/PodProduct.js
 import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 const ShopifyProducts = () => {
   const [productInfo, setProductInfo] = useState([]);
@@ -29,6 +30,13 @@ const ShopifyProducts = () => {
   
   return (
     <div>
+       <ul>
+        <li>
+          <Link href="/">
+            <a>Back to home page</a>
+          </Link>
+        </li>
+      </ul>
       <h2>All Shopify Product Information</h2>
       <ul>
         {productInfo.map(product => (

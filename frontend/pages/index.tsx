@@ -8,7 +8,7 @@ const Index = () => (
       <title>BISOGO PRICE CONVERTER</title>
     </Head>
     <h2>This is a test webapp</h2>
-    <div class="container">
+    <div className="container">
       <h3>NAVIGATION</h3>
       <ul>
         <li>
