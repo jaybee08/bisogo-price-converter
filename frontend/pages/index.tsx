@@ -21,6 +21,11 @@ const Index = () => (
             <a>2. All Shopify Products</a>
           </Link>
         </li>
+        <li>
+          <Link href="/testDB">
+            <a>3. Test DB connection</a>
+          </Link>
+        </li>
       </ul>
     </div>
   </>

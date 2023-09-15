@@ -97,11 +97,9 @@ app.get('/api/pod-products', async (req, res) => {
   }
 });
 
-
 // Product update/creation shopify webhook
 const WEBHOOK_PROCESS_INTERVAL = 120 * 1000; // 120 seconds
 let lastPriceUpdateTimestamp = null;
-
 app.post('/webhooks/shopify', async (req, res) => {
   try {
     // Check the X-Shopify-Topic header to determine the type of webhook
