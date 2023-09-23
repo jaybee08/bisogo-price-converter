@@ -1,7 +1,7 @@
 const fetchProductsFromShopify = async () => {
     const query = `
     {
-        products(first: 10, sortKey: ID) {
+        products(first: 100, sortKey: ID) {
           edges {
             node {
               id

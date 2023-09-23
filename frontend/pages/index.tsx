@@ -22,8 +22,8 @@ const Index = () => (
           </Link>
         </li>
         <li>
-          <Link href="/testDB">
-            <a>3. Test DB connection</a>
+          <Link href="/all-scraped-products">
+            <a>3. All scrape products</a>
           </Link>
         </li>
       </ul>

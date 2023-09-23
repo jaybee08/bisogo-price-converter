@@ -6,6 +6,7 @@ const fetchPodProductsFromShopify = require('./routes/api/pod-products');
 const fetchProductsFromShopify = require('./routes/api/shopify-products');
 const axios = require('axios');
 const fetchUSDtoPHPExchangeRate = require('./usd-php');
+const scrapeCleaningLaundryCollection = require('./scrape-collections/mf-cleaning-laundry');
 const app = express();
 
 const shopify = new Shopify({
@@ -194,6 +195,17 @@ app.post('/webhooks/shopify', async (req, res) => {
     res.status(500).json({ error: 'An error occurred while processing the webhook.' });
   }
 });
+
+// Scrape data from Mandaue Foam
+app.get('/api/scrape', async (req, res) => {
+  try {
+    const data = await scrapeCleaningLaundryCollection();
+    res.json(data);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to scrape data' });
+  }
+});
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
