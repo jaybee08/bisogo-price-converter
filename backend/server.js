@@ -6,7 +6,7 @@ const fetchPodProductsFromShopify = require('./routes/api/pod-products');
 const fetchProductsFromShopify = require('./routes/api/shopify-products');
 const axios = require('axios');
 const fetchUSDtoPHPExchangeRate = require('./usd-php');
-const scrapeCleaningLaundryCollection = require('./scrape-collections/mf-cleaning-laundry');
+const scrapeCleaningLaundryCollection = require('./scrape-collections/mf-scrapeCollection');
 const app = express();
 
 const shopify = new Shopify({

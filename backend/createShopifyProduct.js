@@ -1,6 +1,6 @@
 require('dotenv').config();
 const e = require('express');
-const scrapeCleaningLaundryCollection = require('./scrape-collections/mf-cleaning-laundry');
+const scrapeCleaningLaundryCollection = require('./scrape-collections/mf-scrapeCollection');
 const fetchProductsFromShopify = require('./routes/api/shopify-products');
 
 // Shopify Store Information
@@ -26,11 +26,12 @@ const graphqlQuery = `
         handle
         tags
         vendor
-        variants(first: 10) {
+        variants(first: 100) {
           edges {
             node {
               price
               compareAtPrice
+              sku
               inventoryPolicy
               inventoryQuantity
               inventoryItem {
@@ -47,7 +48,7 @@ const graphqlQuery = `
           name
           values
         }
-        images(first: 10) {
+        images(first: 100) {
           edges {
             node {
               url
@@ -87,8 +88,8 @@ const createShopifyProducts = async () => {
           // If it's not a duplicate, proceed to create the product
           if (!isDuplicate) {
             // Calculate the new price and compareAtPrice by adding 50
-            const newPrice = parseFloat(product.variants[0].price) + 50;
-            const newCompareAtPrice = parseFloat(product.variants[0].compare_at_price) + 50;
+            const newPrice = parseFloat(product.variants[0].price || 0) + 50;
+            const newCompareAtPrice = parseFloat(product.variants[0].compare_at_price || 0) + 50;
             // Map the scraped product data to GraphQL variables format for each product
             const graphqlVariables = {
               input: {
@@ -102,9 +103,16 @@ const createShopifyProducts = async () => {
                     compareAtPrice: newCompareAtPrice.toFixed(2),
                     // Add other variant properties as needed
                     inventoryPolicy: product.variants[0].inventoryPolicy,
-                    inventoryQuantity: product.variants[0].inventoryQuantity,
-                    weight: product.variants[0].weight,
+                    sku: `MF-${product.variants[0].sku}`,
+                    weight: 1,
                     weightUnit: product.variants[0].weightUnit,
+                    inventoryItem: {
+                      tracked: true,
+                    },
+                    inventoryQuantities: {
+                      locationId: "gid://shopify/Location/65974665471",
+                      availableQuantity: 100
+                    },
                   },
                 ],
                 images: product.images.map((src) => ({ src, altText: null })),
